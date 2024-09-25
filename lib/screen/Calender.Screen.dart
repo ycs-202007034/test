@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:todobest_home/Setting.MainPage.dart';
 import 'package:todobest_home/community/Community.MainPage.dart';
+import 'package:todobest_home/rank/RankMore.dart';
 import 'package:todobest_home/utils/Themes.Colors.dart';
-import 'package:todobest_home/rank/Rank.MainPage.dart';
+import 'package:todobest_home/rank/RankMore.dart';
 import 'CalenderUtil/EventModal.dart';
 
 class CalenderScreen extends StatefulWidget {
@@ -267,7 +268,7 @@ class _CalenderScreenState extends State<CalenderScreen>
               Get.to(() => CommunityMainPage());
               break;
             case 2:
-              Get.to(() => RankingPage());
+              Get.to(() => RankmorePage());
               break;
             case 3:
               Get.to(() => SettingMainPage());
