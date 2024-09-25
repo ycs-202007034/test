@@ -1,44 +1,12 @@
 import 'package:flutter/material.dart';
-import '../utils/Themes.Colors.dart';
-import 'RankingScreen.dart';
-import 'DailyTaskScreen.dart';
-import 'WeekTaskScreen.dart';
-import 'ChallengeTaskScreen.dart';
 
 class RankmorePage extends StatelessWidget {
-  final int currentExp = 800; // 현재 경험치
-  final int maxExp = 1500; // 총 경험치
-
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    double expRatio = currentExp / maxExp;
-
     return Scaffold(
-      backgroundColor: Theme1Colors.mainColor,
       appBar: AppBar(
-        title: Text(
-          'ToDoBest',
-          style: TextStyle(
-            fontSize: 26,
-            color: Theme1Colors.textColor,
-          ),
-        ),
+        title: Text('플래너 앱'),
         centerTitle: true,
-        backgroundColor: Theme1Colors.mainColor,
-        leading: BackButton(
-          color: Theme1Colors.textColor,
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              // 알림 기능 추가 가능
-            },
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -47,48 +15,74 @@ class RankmorePage extends StatelessWidget {
           children: [
             Row(
               children: [
+                // 프로필 이미지
                 CircleAvatar(
-                  radius: screenWidth * 0.1,
+                  radius: 40.0,
                   backgroundColor: Colors.grey,
+                  // 사용자의 프로필 사진을 네트워크에서 불러오려면 NetworkImage 사용
                   backgroundImage: AssetImage('assets/profile_placeholder.png'),
                 ),
-                SizedBox(width: screenWidth * 0.04),
+                SizedBox(width: 16),
+                // 사용자 이름, 한 줄 소개, 레벨 표시
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '홍길동',
                       style: TextStyle(
-                        fontSize: screenHeight * 0.03,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: screenHeight * 0.02),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    SizedBox(height: 4),
+                    Text(
+                      '한 마디: 갓생살자',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Row(
                       children: [
                         Text(
                           'Lv.999',
                           style: TextStyle(
-                            fontSize: screenHeight * 0.025,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: screenHeight * 0.01),
-                        Container(
-                          width: screenWidth * 0.6,
-                          child: LinearProgressIndicator(
-                            value: expRatio,
-                            backgroundColor: Colors.grey[300],
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.greenAccent),
-                            minHeight: screenHeight * 0.02,
+                        SizedBox(width: 8),
+                        Expanded(
+                          // 너비 조정하여 오버플로우 방지
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              Positioned(
+                                child: Container(
+                                  width: 130, // 예시로 130/150 경험치
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    color: Colors.greenAccent,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: screenHeight * 0.01),
+                        SizedBox(width: 8),
                         Text(
-                          '$currentExp/$maxExp',
+                          '1300/1500',
                           style: TextStyle(
-                            fontSize: screenHeight * 0.02,
+                            fontSize: 14,
                             color: Colors.grey[600],
                           ),
                         ),
@@ -98,37 +92,33 @@ class RankmorePage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: screenHeight * 0.05),
+            SizedBox(height: 40),
+            // 네 개의 버튼
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
-                crossAxisSpacing: screenWidth * 0.04,
-                mainAxisSpacing: screenHeight * 0.03,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
                 children: [
                   TaskButton(
                     label: '일일과제',
                     color: Colors.green.shade200,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => DailyTasksPage()),
-                      );
+                      // 일일과제 페이지로 이동
                     },
                   ),
                   TaskButton(
                     label: '주간과제',
                     color: Colors.green.shade100,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => WeeklyTasksPage()),
-                      );
+                      // 주간과제 페이지로 이동
                     },
                   ),
                   TaskButton(
                     label: '랭킹',
                     color: Colors.yellow.shade100,
                     onPressed: () {
+                      // 랭킹 페이지로 이동
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => RankingPage()),
@@ -139,10 +129,7 @@ class RankmorePage extends StatelessWidget {
                     label: '도전과제',
                     color: Colors.orange.shade100,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ChallengePage()),
-                      );
+                      // 도전과제 페이지로 이동
                     },
                   ),
                 ],
@@ -155,7 +142,7 @@ class RankmorePage extends StatelessWidget {
   }
 }
 
-// TaskButton 클래스 파일 내부에 정의
+// 과제 버튼 위젯
 class TaskButton extends StatelessWidget {
   final String label;
   final Color color;
@@ -169,8 +156,9 @@ class TaskButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(12),
         ),
+        minimumSize: Size(double.infinity, 100),
       ),
       onPressed: onPressed,
       child: Text(
@@ -178,6 +166,25 @@ class TaskButton extends StatelessWidget {
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+}
+
+// RankingPage를 정의합니다.
+class RankingPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('랭킹 페이지'),
+      ),
+      body: Center(
+        child: Text(
+          '여기에 랭킹 내용을 표시합니다.',
+          style: TextStyle(fontSize: 24),
         ),
       ),
     );
